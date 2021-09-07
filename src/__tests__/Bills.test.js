@@ -1,6 +1,9 @@
 import { screen } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
+import { text } from "express";
+import LoadingPage from "../views/LoadingPage.js";
+import ErrorPage from "../views/ErrorPage.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -23,6 +26,15 @@ describe("Given I am connected as an employee", () => {
       const antiChrono = (a, b) => (a < b ? 1 : -1);
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);
+    });
+    test("When loading i should see the loading page", () => {
+      const html = BillsUI({ data: bills, loading: true });
+      expect(html).toEqual(LoadingPage());
+    });
+    test("When error i should see the error page", () => {
+      const error = "erreur de test";
+      const html = BillsUI({ data: bills, error: error });
+      expect(html).toEqual(ErrorPage(error));
     });
   });
 });
