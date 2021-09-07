@@ -39,8 +39,6 @@ export const card = (bill) => {
     try {
       return formatDate(bill.date);
     } catch (error) {
-      console.log(error);
-      console.log(bill);
       return bill.date;
     }
   }
@@ -151,7 +149,6 @@ export default class {
     if (this.counter === undefined || this.index !== index) this.counter = 0;
     if (this.index === undefined || this.index !== index) this.index = index;
     if (this.counter % 2 === 0) {
-      console.log(filteredBills(bills, getStatus(this.index)));
       $(`#arrow-icon${this.index}`).css({ transform: "rotate(0deg)" });
       $(`#status-bills-container${this.index}`).html(
         cards(filteredBills(bills, getStatus(this.index)))
@@ -162,8 +159,8 @@ export default class {
       $(`#status-bills-container${this.index}`).html("");
       this.counter++;
     }
-
     bills.forEach((bill) => {
+      $(`#open-bill${bill.id}`).unbind("click");
       $(`#open-bill${bill.id}`).click((e) =>
         this.handleEditTicket(e, bill, bills)
       );
