@@ -1,9 +1,11 @@
-import { screen } from "@testing-library/dom";
+import { getByTestId, screen } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
 import { text } from "express";
 import LoadingPage from "../views/LoadingPage.js";
 import ErrorPage from "../views/ErrorPage.js";
+import NewBillUI from "../views/NewBillUI.js";
+import Bills from "../containers/Bills.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -35,6 +37,23 @@ describe("Given I am connected as an employee", () => {
       const error = "erreur de test";
       const html = BillsUI({ data: bills, error: error });
       expect(html).toEqual(ErrorPage(error));
+    });
+    describe("When i click on the new Bill button", () => {
+      test("new Bill handler should be called", () => {
+        const onNavigate = jest.fn();
+        const mockBills = new Bills({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: window.localStorage,
+        });
+        const mockHandler = jest.fn(mockBills.handleClickNewBill);
+        screen
+          .getByTestId("btn-new-bill")
+          .addEventListener("click", mockHandler);
+        screen.getByTestId("btn-new-bill").click();
+        expect(mockHandler).toBeCalled();
+      });
     });
   });
 });
