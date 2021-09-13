@@ -1,4 +1,5 @@
 import { getByTestId, screen } from "@testing-library/dom";
+import { getAllByTestId } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
 import { text } from "express";
@@ -6,6 +7,7 @@ import LoadingPage from "../views/LoadingPage.js";
 import ErrorPage from "../views/ErrorPage.js";
 import NewBillUI from "../views/NewBillUI.js";
 import Bills from "../containers/Bills.js";
+import Logout from "../containers/Logout.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -47,12 +49,53 @@ describe("Given I am connected as an employee", () => {
           firestore: null,
           localStorage: window.localStorage,
         });
-        const mockHandler = jest.fn(mockBills.handleClickNewBill);
+        mockBills.handleClickIconEye = jest.fn();
         screen
           .getByTestId("btn-new-bill")
-          .addEventListener("click", mockHandler);
+          .addEventListener("click", mockBills.handleClickIconEye);
         screen.getByTestId("btn-new-bill").click();
-        expect(mockHandler).toBeCalled();
+        expect(mockBills.handleClickIconEye).toBeCalled();
+      });
+    });
+    describe("When i click on the eye icon", () => {
+      test("the icon eye click handler should be called", () => {
+        const onNavigate = jest.fn();
+        const mockBills = new Bills({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: window.localStorage,
+        });
+        const html = BillsUI({ data: bills });
+        document.body.innerHTML = html;
+        mockBills.handleClickIconEye = jest.fn();
+        const iconEye = screen.getAllByTestId("icon-eye");
+        if (iconEye)
+          iconEye.forEach((icon) => {
+            icon.addEventListener("click", (e) =>
+              mockBills.handleClickIconEye(icon)
+            );
+          });
+        new Logout({ document, localStorage, onNavigate });
+        screen.getAllByTestId("icon-eye")[0].click();
+        expect(mockBills.handleClickIconEye).toBeCalled();
+      });
+      test("modal should show", () => {
+        const onNavigate = jest.fn();
+
+        document.body.innerHTML = BillsUI({ data: bills });
+        const mockBills = new Bills({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: window.localStorage,
+        });
+        const iconEye = document.querySelector(`div[data-testid="icon-eye"]`);
+        $.fn.modal = jest.fn((arg) => {
+          document.querySelector("#modaleFile").classList.toggle(arg);
+        });
+        mockBills.handleClickIconEye(iconEye);
+        expect(document.querySelector(".modal.show")).toBeTruthy();
       });
     });
   });
