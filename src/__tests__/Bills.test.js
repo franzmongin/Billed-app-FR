@@ -50,12 +50,12 @@ describe("Given I am connected as an employee", () => {
           firestore: null,
           localStorage: window.localStorage,
         });
-        mockBills.handleClickIconEye = jest.fn();
+        mockBills.handleClickNewBill = jest.fn();
         screen
           .getByTestId("btn-new-bill")
-          .addEventListener("click", mockBills.handleClickIconEye);
+          .addEventListener("click", mockBills.handleClickNewBill);
         screen.getByTestId("btn-new-bill").click();
-        expect(mockBills.handleClickIconEye).toBeCalled();
+        expect(mockBills.handleClickNewBill).toBeCalled();
       });
     });
     describe("When i click on the eye icon", () => {
