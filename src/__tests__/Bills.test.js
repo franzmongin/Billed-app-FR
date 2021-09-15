@@ -55,6 +55,12 @@ describe("Given I am connected as an employee", () => {
           .getByTestId("btn-new-bill")
           .addEventListener("click", mockBills.handleClickNewBill);
         screen.getByTestId("btn-new-bill").click();
+
+        const buttonNewBill = screen.getByTestId("btn-new-bill");
+        if (buttonNewBill) {
+          buttonNewBill.addEventListener("click", mockBills.handleClickNewBill);
+        }
+
         expect(mockBills.handleClickNewBill).toBeCalled();
       });
     });
@@ -71,15 +77,18 @@ describe("Given I am connected as an employee", () => {
         document.body.innerHTML = html;
         mockBills.handleClickIconEye = jest.fn();
         const iconEye = screen.getAllByTestId("icon-eye");
-        if (iconEye)
+        if (iconEye) {
           iconEye.forEach((icon) => {
             icon.addEventListener("click", (e) =>
               mockBills.handleClickIconEye(icon)
             );
           });
+        }
         new Logout({ document, localStorage, onNavigate });
-        screen.getAllByTestId("icon-eye")[0].click();
-        expect(mockBills.handleClickIconEye).toBeCalled();
+        screen.getAllByTestId("icon-eye").forEach((e) => {
+          e.click();
+          expect(mockBills.handleClickIconEye).toBeCalled();
+        });
       });
       test("modal should show", () => {
         const onNavigate = jest.fn();

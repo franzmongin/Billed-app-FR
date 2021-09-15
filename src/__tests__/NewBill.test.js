@@ -13,7 +13,7 @@ describe("Given I am connected as an employee", () => {
         const newBill = new NewBill({
           document,
           onNavigate,
-          firestore,
+          firestore: null,
           localStorage,
         });
         const handleSubmit = jest.fn();
@@ -32,5 +32,10 @@ describe("Given I am connected as an employee", () => {
         expect(handleSubmit).toBeCalled();
       });
     });
+    describe("when i change the image in the file input", ()=>{
+      test("change the input value with the new image if image is ok", ()=>{
+        
+      })
+    })
   });
 });
