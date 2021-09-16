@@ -21,26 +21,28 @@ export default class NewBill {
       .files[0];
     const filePath = e.target.value.split(/\\/g);
     const fileName = filePath[filePath.length - 1];
-    console.log(file.type);
     if (
       file.type === "image/jpeg" ||
       file.type === "image/jpg" ||
       file.type === "image/png"
     ) {
-      console.log("coucou");
-      this.firestore.storage
-        .ref(`justificatifs/${fileName}`)
-        .put(file)
-        .then((snapshot) => snapshot.ref.getDownloadURL())
-        .then((url) => {
-          this.fileUrl = url;
-          this.fileName = fileName;
-        });
+      if (this.firestore) {
+        this.firestore.storage
+          .ref(`justificatifs/${fileName}`)
+          .put(file)
+          .then((snapshot) => snapshot.ref.getDownloadURL())
+          .then((url) => {
+            this.fileUrl = url;
+            this.fileName = fileName;
+          });
+      }
+      document.querySelector(".error-imageFormat").style.display = "none";
+      document.querySelector(".error-imageFormat").textContent = "";
     } else {
       e.target.value = "";
-      alert(
-        "mauvais format d'image ! formats d'images autorisés: .jpg, .jpeg, .png"
-      );
+      document.querySelector(".error-imageFormat").style.display = "block";
+      document.querySelector(".error-imageFormat").textContent =
+        "mauvais format d'image ! formats d'images autorisés: .jpg, .jpeg, .png";
     }
   };
   handleSubmit = (e) => {
@@ -73,6 +75,7 @@ export default class NewBill {
   };
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   createBill = (bill) => {
     if (this.firestore) {
       this.firestore
