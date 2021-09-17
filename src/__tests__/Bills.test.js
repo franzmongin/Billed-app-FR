@@ -42,7 +42,7 @@ describe("Given I am connected as an employee", () => {
       expect(html).toEqual(ErrorPage(error));
     });
     describe("When i click on the new Bill button", () => {
-      test("new Bill handler should be called", () => {
+      test("then new Bill handler should be called", () => {
         const onNavigate = jest.fn();
         const mockBills = new Bills({
           document,
@@ -65,7 +65,7 @@ describe("Given I am connected as an employee", () => {
       });
     });
     describe("When i click on the eye icon", () => {
-      test("the icon eye click handler should be called", () => {
+      test("then the icon eye click handler should be called", () => {
         const onNavigate = jest.fn();
         const mockBills = new Bills({
           document,
@@ -90,7 +90,7 @@ describe("Given I am connected as an employee", () => {
           expect(mockBills.handleClickIconEye).toBeCalled();
         });
       });
-      test("modal should show", () => {
+      test("then modal should show", () => {
         const onNavigate = jest.fn();
 
         document.body.innerHTML = BillsUI({ data: bills });

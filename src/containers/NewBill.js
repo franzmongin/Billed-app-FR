@@ -70,6 +70,7 @@ export default class NewBill {
       fileName: this.fileName,
       status: "pending",
     };
+    console.log(bill);
     this.createBill(bill);
     this.onNavigate(ROUTES_PATH["Bills"]);
   };
