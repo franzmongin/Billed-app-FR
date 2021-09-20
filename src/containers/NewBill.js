@@ -26,6 +26,7 @@ export default class NewBill {
       file.type === "image/jpg" ||
       file.type === "image/png"
     ) {
+      /* istanbul ignore if */
       if (this.firestore) {
         this.firestore.storage
           .ref(`justificatifs/${fileName}`)
