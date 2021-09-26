@@ -108,7 +108,7 @@ describe("Given I am connected as an employee", () => {
 
 // Test d'intégration GET BILLS
 describe("Given I am a user connected as Employee", () => {
-  describe("When I navigate to Dashboard", () => {
+  describe("When I navigate to bills list", () => {
     test("fetches bills from mock API GET", async () => {
       const getSpy = jest.spyOn(firebase, "get");
       const bills = await firebase.get();
