@@ -12,11 +12,6 @@ import firebase from "../__mocks__/firebase";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
-    test("Then bill icon in vertical layout should be highlighted", () => {
-      const html = BillsUI({ data: [] });
-      document.body.innerHTML = html;
-      //to-do write expect expression
-    });
     test("Then bills should be ordered from earliest to latest", () => {
       const sortedBills = bills.sort(
         (a, b) => new Date(b.date) - new Date(a.date)

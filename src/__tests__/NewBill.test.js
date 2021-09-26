@@ -76,7 +76,7 @@ describe("Given I am connected as an employee", () => {
         );
         expect(inputValue).toBe("");
       });
-      test("then image should stay if format is good", () => {
+      test("then error should be hidden if format is good", () => {
         const onNavigate = jest.fn();
         const html = NewBillUI();
         document.body.innerHTML = html;
@@ -110,8 +110,8 @@ describe("Given I am connected as an employee", () => {
 });
 
 // test d'intégration
-describe("Given I am a user connected as Admin", () => {
-  describe("When I navigate to Dashboard", () => {
+describe("Given I am a user connected as Employee", () => {
+  describe("When I navigate to newBill form", () => {
     describe("when i post a bill", () => {
       test("then if the bill is valid bill", async () => {
         const postSpy = jest.spyOn(firebase, "post");
