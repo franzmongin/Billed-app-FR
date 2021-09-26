@@ -26,7 +26,7 @@ describe("Given I am connected as an employee", () => {
           firestore: null,
           localStorage,
         });
-        const handleSubmit = jest.fn();
+        const handleSubmit = jest.fn(newBill.handleSubmit);
         const formNewBill = screen.getByTestId("form-new-bill");
         formNewBill.addEventListener("submit", handleSubmit);
         Object.defineProperty(window, "localStorage", {
